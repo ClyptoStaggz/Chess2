@@ -14,18 +14,18 @@ ABoardManager::ABoardManager()
 
 int ABoardManager::InitializeBoardState(int Size, FTransform SpawnLocation)
 {
-	FTransform workingLocation = SpawnLocation;
-	FVector 
 	int count = 0;
+	FVector nextLocation = SpawnLocation.GetLocation();
+
 	for (auto& string : BoardInfo.Row)
 	{
-		//TODO Add logic to change offset for verticle tiles. 
-
-
-		BoardInfo.InitialLocations.Add(BoardInfo.Row[count], workingLocation.GetLocation().X);
+		BoardInfo.InitialLocations.Add(BoardInfo.Row[count], nextLocation);
 		count++;
+
+
+		nextLocation.X += BoardInfo.SpaceOffset;
 	}
-	return -1;
+	return count;
 }
 
 void ABoardManager::SpawnBoardOfSize(int Size, FTransform SpawnLocation)
@@ -34,13 +34,16 @@ void ABoardManager::SpawnBoardOfSize(int Size, FTransform SpawnLocation)
 	FTransform SpawnTransform = SpawnLocation;
 	
 	int rows = InitializeBoardState(Size, SpawnLocation);
+	if (rows != Size)
+		return;
 
 	for (int i = 0; i < rows; ++i)
 	{
 		if (ABoardSpace* resultSpace = SpawnSingleSpace(SpawnTransform))
 		{
 			CurrentSpace = resultSpace;
-			resultSpace->Init(BoardInfo.Row[i], currentSize+1, false);
+			resultSpace->Init(BoardInfo.Row[i], currentSize+1, resultSpace->SpaceInfo.IsWhite);
+			resultSpace->BlueprintInit();
 			BoardSpaces.Add(resultSpace);
 			currentSize++;
 		}
