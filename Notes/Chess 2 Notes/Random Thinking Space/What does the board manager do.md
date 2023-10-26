@@ -1,0 +1,1 @@
+The board manager..... is the board. It checks for events and controls where they get delegated. 

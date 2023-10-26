@@ -16,7 +16,10 @@ struct FBoardInfo
 	/// Initializes the rows array. Set in blueprint. ex. A, B, C 
 	/// </summary>
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Board Info")
-		TArray<FString> Row;
+		TArray<FString> Row; 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Board Info")
+		float SpaceOffset;
+
 	/// <summary>
 	/// Gives a location to each row 
 	/// </summary>
